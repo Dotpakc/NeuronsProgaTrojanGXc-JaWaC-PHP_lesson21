@@ -34,6 +34,7 @@ def load_data():
     try:
         with open('users.json', 'r', encoding='utf-8') as file:
             users = json.load(file)
+            return users
     except:
         users = []
 
@@ -65,10 +66,8 @@ def chenge_balance(user_id, value):
 
 
 
-load_data()
-users = [# {id, username, full_name , balance}
 
-]
+users = load_data()
 
 # ban_list = [
 #
@@ -251,7 +250,12 @@ async def slot_handler(call: types.CallbackQuery):
             break
     chenge_balance(user['id'], win)
     user = check_user(call.from_user)
-    text = f'???{r[0]}{r[1]}{r[2]}???\nВи виграли: {win} ??\nВаш баланс: {user["balance"]}'
+
+    text =''
+    for el in lists_of_wins:
+        text+=f'{el["slot"]} - {el["win"]}\n'
+    text +='\n'
+    text += f'???{r[0]}{r[1]}{r[2]}???\nВи виграли: {win} ??\nВаш баланс: {user["balance"]}'
 
     markup = types.InlineKeyboardMarkup(row_width=2, inline_keyboard=[
         [
